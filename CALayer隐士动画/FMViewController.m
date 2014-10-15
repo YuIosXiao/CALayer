@@ -9,7 +9,7 @@
 #import "FMViewController.h"
 
 @interface FMViewController ()
-
+@property (nonatomic, strong) CALayer *layer;
 @end
 
 @implementation FMViewController
@@ -18,12 +18,24 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    CALayer *layer = [CALayer layer];
+    layer.bounds = CGRectMake(0, 0, 100, 100);
+    layer.backgroundColor = [UIColor redColor].CGColor;
+    layer.position = CGPointZero;
+    layer.anchorPoint = CGPointZero;
+    [self.view.layer addSublayer:layer];
+    self.layer = layer;
 }
 
-- (void)didReceiveMemoryWarning
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.layer.backgroundColor = [UIColor blueColor].CGColor;
+    [CATransaction begin]; // 开启事务
+    [CATransaction setDisableActions:YES];
+    
+    self.layer.position = CGPointMake(100, 100);
+    self.layer.opacity = 0.5;
+    
+    [CATransaction commit]; // 提交事务
 }
-
 @end
